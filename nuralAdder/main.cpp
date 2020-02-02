@@ -8,5 +8,8 @@ int main()
 {
 	setlocale(LC_ALL, "Russian");
 	srand(time(0));
+
 	Net *net = new Net;
+    net->trainNet();
+    net->showResultsForAllSets();
 }
