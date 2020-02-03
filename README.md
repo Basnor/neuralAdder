@@ -1,2 +1,2 @@
 # neuralAdder
-The neural network that adds 1 to the binary three-digit number
+Neural network that adds 1 to the binary three-digit number
