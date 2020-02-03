@@ -1,9 +1,7 @@
 #ifndef NET_H
 #define NET_H
 
-#include <iostream>
 #include "Layer.h"
-#include <math.h>
 
 class Net
 {
@@ -11,41 +9,71 @@ public:
     enum { X_NUM = 3, Y_NUM = 3, SAMPLE_SIZE = 7, MAX_EPOCH = 20000 };
 
     /*
-     * Constructor
-     */
-	Net();
+    * Constructor
+    */
+    Net();
 
     /*
-     * Train net on sample sets
-     */
+    * Train net on sample sets
+    */
     void trainNet();
 
     /*
-     * Show net errors and net values for all training sets
-     */
+    * Show net errors and net values for all training sets
+    */
     void showResultsForAllSets();
 
 private:
     int m_trainingSet[SAMPLE_SIZE][2][3];
+
+    /*
+    * Num of hiden + output (1) layers
+    */
     int m_layersNum;
 
-	Layer* m_layer;
-	Layer* m_inputLayer;
+    /*
+    * Layers exept first (input)
+    */
+    Layer* m_layer;
 
     /*
-     * Set weight and bias for each neuron in net
-     */
-    void setRandNetParam(int* layerSize, int layerNum);
-    void setLayersValues(int* x, int layerNum);
-	double getNetError(int* y, int layerNum);
-	void setNetCorrection(int* y, int layerNum);
+    * Input layer
+    */
+    Layer* m_inputLayer;
 
     /*
-     * Fisher–Yates shuffle
-     */
+    * Set weight and bias for each neuron in net
+    */
+    void setRandNetParam(int* layerSize);
+
+    /*
+    * Set value for each neuron in net
+    */
+    void setLayersValues(int* x);
+
+    /*
+    * Count result error of net
+    */
+    double getNetError(int* y);
+
+    /*
+    * Set new error and neuron parametrs
+    */
+    void setNetCorrection(int* y);
+
+    /*
+    * Fisher–Yates shuffle
+    */
     void shuffleTrainingSet();
 
+    /*
+    * Iteration of all training set
+    */
     void correctNetOnSet();
+
+    /*
+    * Check result error for each training set
+    */
     bool isNetTrained();
 
 };

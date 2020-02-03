@@ -1,32 +1,75 @@
-
 #ifndef LAYER_H
 #define LAYER_H
 
-#include <iostream>
 #include "Neuron.h"
 
 class Layer
 {
 public:
+    /*
+    * Constructor
+    */
     Layer();
-    ~Layer();
 
+    /*
+    * Init size and composition of the layer
+    */
     void initNeuronNum(int curNeuronNum, int pastNeuronNum);
-    void setNewLayer();
-    void setInputLayer(int* values);
-    void setNeuronValue(Layer inputLayer);
-    void setCorrection(double* nErr, int nextNeuronNum);
-    void setCorrectWeight(Layer inputLayer);
-    double* getErr();
-    void setTopErr(int* req);
 
+    /*
+    * Fill neurons with random values
+    */
+    void setRandNeurons();
+
+    /*
+    * Set input layer values
+    */
+    void setInputLayer(int* values);
+
+    /*
+    * Set neuron valuses for hiden layers
+    */
+    void setNeuronValue(Layer inputLayer);
+
+    /*
+    * Set error for neurons in hiden layers
+    */
+    void setHidenLayersErrors(Neuron* nextNeurons, int nextNeuronNum);
+
+    /*
+    * Set correct weight and bias for neurons in current layer
+    */
+    void setNeuronsCorrection(Layer inputLayer);
+
+    /*
+    * Set error for neurons in output layer
+    */
+    void setOutputLayerErrors(int* req);
+
+    /*
+    * Get number of neurons in current layer
+    */
     int getNeuronNum();
+
+    /*
+    * Cet neurons in current layer
+    */
     Neuron* getNeurons();
 
 private:
+    /*
+    * Neurons in current layer
+    */
     Neuron* m_layer;
-    double* m_err;
+
+    /*
+    * Number neurons in current layer
+    */
     int m_curNeuronNum;
+
+    /*
+    * Number neurons in previous layer
+    */
     int m_pastNeuronNum;
 };
 

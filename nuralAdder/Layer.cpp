@@ -5,18 +5,13 @@ Layer::Layer() {
     m_pastNeuronNum = 0;
 }
 
-Layer::~Layer() {
-
-}
-
 void Layer::initNeuronNum(int curNeuronNum, int pastNeuronNum) {
     m_curNeuronNum = curNeuronNum;
     m_pastNeuronNum = pastNeuronNum;
     m_layer = new Neuron[m_curNeuronNum];
-    m_err = new double[m_curNeuronNum];
 }
 
-void Layer::setNewLayer() {
+void Layer::setRandNeurons() {
     for (int i = 0; i < m_curNeuronNum; i++) {
         m_layer[i].setRandNeuron(m_pastNeuronNum);
     }
@@ -43,25 +38,21 @@ Neuron* Layer::getNeurons() {
     return m_layer;
 }
 
-double* Layer::getErr() {
-    return m_err;
-}
-
-void Layer::setTopErr(int* req) {
+void Layer::setOutputLayerErrors(int* req) {
     for (int i = 0; i < m_curNeuronNum; i++) {
-        double input = (double)req[i]; //output
-        m_err[i] = m_layer[i].countOutputError(input);
+        double reqValue = (double)req[i];
+        m_layer[i].setOutputError(reqValue);
     }
 }
 
-void Layer::setCorrection(double* nErr, int nextNeuronNum) {
+void Layer::setHidenLayersErrors(Neuron* nextNeurons, int nextNeuronNum) {
     for (int i = 0; i < m_curNeuronNum; i++) {
-        m_err[i] = m_layer[i].countHidenErr(nextNeuronNum, nErr);
+        m_layer[i].setHidenErr(nextNeuronNum, nextNeurons);
     }
 }
 
-void Layer::setCorrectWeight(Layer inputLayer) {
+void Layer::setNeuronsCorrection(Layer pastLayer) {
     for (int i = 0; i < m_curNeuronNum; i++) {
-        m_layer[i].setWeightCorrection(m_pastNeuronNum, m_err[i], inputLayer.getNeurons());
+        m_layer[i].setNeuronCorrection(m_pastNeuronNum, pastLayer.getNeurons());
     }
 }

@@ -3,29 +3,70 @@
 
 class Neuron
 {
-public:
-    Neuron();
-    ~Neuron();
+    public:
+    /*
+    * Constructor
+    */
+    Neuron(double learningRate = 0.7);
 
     struct neuron
     {
-        double value;     // значение
-        double* weight;   // веса
-        double bias;      // смещение
+        double value;
+        double* weights;
+        double bias;
+        double err;
     };
 
+    /*
+    * Set rand weights and bias for m_neuron
+    */
     void setRandNeuron(int waightsNum);
+
+    /*
+    * Set recieved neuron value
+    */
     void setNeuronValue(double val);
+
+    /*
+    * Sigmoid Activation Function
+    */
     void setValues(Neuron* pastLayer, int pastLayerSize);
 
-    double countOutputError(double req);
-    double countHidenErr(int waightsNum, double* outError);
-    void setWeightCorrection(int waightsNum, double error, Neuron* pastLayer);
+    /*
+    * set error of last layer
+    */
+    void setOutputError(double req);
 
+    /*
+    * Errors of hiden layers
+    */
+    void setHidenErr(int nextLayerSize, Neuron* nextNeurons);
+
+    /*
+    * Weight and Bias correction for current neuron
+    * waightsNum - number of weights included in current neuron
+    * pastLayer - neurons params of previous layer
+    */
+    void setNeuronCorrection(int pastLayerSize, Neuron* pastLayer);
+
+    /*
+    * Get current neuron params
+    */
     neuron getNeuron();
 
 private:
+    double m_learningRate;
+
+    /*
+    * Current neuron
+    */
     neuron m_neuron;
+
+    /*
+    * Get rand value: [-0.500; -0.010] v [0.010; 0.500]
+    */
+    double getRandVal();
+
 };
 
 #endif
